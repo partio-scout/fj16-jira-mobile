@@ -1,13 +1,18 @@
 doctype html
 html
   head
+    meta(charset='UTF-8')
+    meta(name='viewport' content='width=device-width, initial-scale=1')
+    link(href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:900|PT+Sans:400,700' rel='stylesheet', type='text/css')
+    link(rel='stylesheet', href='/style.css')
     block title
       title='Mobile JIRA'
   body
     #header
       h1='Mobile JIRA'
       if username
-        a(href='/logout')='Log out'
-    block content
+        a.logout(href='/logout')='Log out'
+    #main
+      block content
     #error
       block error

@@ -2,15 +2,16 @@ extend ./layout.pug
 block title
   title="Issue"
 block content
-  if issue.fields.status.name === 'To Do'
-    a(href='/todo')='< Back to assignments'
-  if issue.fields.status.name === 'In Progress'
-    a(href='/inprog')='< Back to assignments'
-  if issue.fields.status.name === 'Done'
-    a(href='/done')='< Back to assignments'
-  div.issuekey=issue.fields.issuetype.name + ': ' + issue.key
-  h2=issue.fields.summary
+  div.back
+    if issue.fields.status.name === 'To Do'
+      a(href='/todo')='< Back to assignments'
+    if issue.fields.status.name === 'In Progress'
+      a(href='/inprog')='< Back to assignments'
+    if issue.fields.status.name === 'Done'
+      a(href='/done')='< Back to assignments'
+  div.issuekey=issue.fields.issuetype.name + ': ' + issue.key + ' '
     span.status(class=issue.fields.status.name)=issue.fields.status.name
+  h3.issuetitle=issue.fields.summary
   p
     strong='Components: '
     each component in issue.fields.components

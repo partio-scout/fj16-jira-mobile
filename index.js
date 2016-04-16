@@ -26,6 +26,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 var csrfProtection = csrf();
 app.use(csrfProtection);
 
+app.use(express.static('public'));
+
 function handleError(err, res) {
   console.error('Handle error: ', err);
   if (err.status && err.status === 401) {
@@ -49,7 +51,7 @@ app.get('/login', function(req, res) {
   res.render('login', { csrfToken: req.csrfToken() });
 });
 
-app.post('/login', csrfProtection, function(req, res) {
+app.post('/login', function(req, res) {
   req.session.regenerate(function(err) {
     if (err) {
       console.error('Session regeneration failed', err);
