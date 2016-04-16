@@ -2,20 +2,22 @@ extend ./layout.pug
 block title
   title="Issue"
 block content
-  h2=issue.key
-  table
-    tr
-      td="Summary:"
-      td=issue.fields.summary
-    tr
-      td="Description:"
-      td=issue.fields.description
-    tr
-      td="Coordinates:"
-      td=issue.fields.customfield_10100
-    tr
-      td="Requestor:"
-      td=issue.fields.customfield_10025
-    tr
-      td="Due date:"
-      td=issue.fields.duedate
+  if issue.fields.status.name === 'To Do'
+    a(href='/todo')='< Back to assignments'
+  if issue.fields.status.name === 'In Progress'
+    a(href='/inprog')='< Back to assignments'
+  if issue.fields.status.name === 'Done'
+    a(href='/done')='< Back to assignments'
+  div.issuekey=issue.fields.issuetype.name + ': ' + issue.key
+  h2=issue.fields.summary
+    span.status(class=issue.fields.status.name)=issue.fields.status.name
+  p
+    strong='Due date: '
+    span=issue.fields.duedate
+  p
+    strong='Coordinates: '
+    span=issue.fields.customfield_10100
+  p=issue.fields.description
+  p
+    strong='Requestor: '
+    span=issue.fields.customfield_10025
