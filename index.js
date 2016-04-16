@@ -69,7 +69,12 @@ app.post('/login', csrfProtection, function(req, res) {
 });
 
 app.get('/logout', function(req, res) {
-  
+  req.session.destroy(function(err) {
+    if (err) {
+      console.error('Logout failed: ', err);
+    }
+    res.redirect('/');
+  });
 });
 
 app.get('/todo', function (req, res) {
