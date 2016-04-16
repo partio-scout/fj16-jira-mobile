@@ -99,6 +99,15 @@ app.get('/issue/:key', function (req, res) {
   });
 });
 
+app.get('/issue/:key/json', function (req, res) {
+  jira.getIssue(req.params.key, req.session.username, req.session.password, function(err, issue) {
+    if (err) {
+      return handleError(err, res);
+    }
+    res.send(issue);
+  });
+});
+
 app.listen(3000, function() {
   console.log('Running...');
 });
