@@ -65,6 +65,7 @@ a {
   font-size: 1em;
   font-weight: 900;
   font-family: 'Source Sans Pro', sans-serif;
+  -webkit-appearance: none;
 }
 
 .btn.disabled {
