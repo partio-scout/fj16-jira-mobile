@@ -72,6 +72,24 @@ app.get('/todo', function (req, res) {
   });
 });
 
+app.get('/inprog', function (req, res) {
+  jira.getInProgress(req.session.username, req.session.password, function(err, todo) {
+    if (err) {
+      return handleError(err, res);
+    }
+    res.render('issues', {issues: todo});
+  });
+});
+
+app.get('/done', function (req, res) {
+  jira.getDone(req.session.username, req.session.password, function(err, todo) {
+    if (err) {
+      return handleError(err, res);
+    }
+    res.render('issues', {issues: todo});
+  });
+});
+
 app.listen(3000, function() {
   console.log('Running...');
 });

@@ -26,6 +26,21 @@ function validateLogin(username, password, cb) {
 }
 
 function getToDo(username, password, cb) {
+  var jql = 'assignee=' + username +' and status="To Do" ORDER BY Rank';
+  getIssueListBySearch(jql, username, password, cb);
+}
+
+function getInProgress(username, password, cb) {
+  var jql = 'assignee=' + username +' and status="In Progress" ORDER BY Rank';
+  getIssueListBySearch(jql, username, password, cb);
+}
+
+function getDone(username, password, cb) {
+  var jql = 'assignee=' + username + ' and status="Done" ORDER BY Rank';
+  getIssueListBySearch(jql, username, password, cb);
+}
+
+function getIssueListBySearch(jql, username, password, cb) {
   if (!username || !password) {
     return _.defer(function() {
       var err = new Error('No username or password supplied');
@@ -35,28 +50,23 @@ function getToDo(username, password, cb) {
   }
 
   request
-    .get(baseUrl + 'api/latest/search?jql=assignee=teppo.testaaja and status="To Do" ORDER BY Rank')
+    .get(baseUrl + 'api/latest/search?jql=' + jql)
     .auth(username, password)
     .end(function(err, res) {
       if (err) {
         return cb(err);
       }
 
-      // debug logging
-      console.log(res.body.issues)
       var issues = res.body.issues;
-      for (var a in issues) {
-        var issue = issues[a];
-        console.log(issue.key + " | " + issue.fields.summary);
-      }
-      // end debug logging
 
       cb(null, issues);
-
     });
+
 }
 
 module.exports = {
   validateLogin: validateLogin,
   getToDo: getToDo,
+  getInProgress: getInProgress,
+  getDone: getDone
 };
