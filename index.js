@@ -2,6 +2,7 @@ var express = require('express');
 var session = require('express-session');
 var FileStore = require('session-file-store')(session);
 var csrf = require('csurf');
+var jira = require('./jira');
 
 var app = express();
 
@@ -23,7 +24,9 @@ var csrfProtection = csrf();
 app.use(csrfProtection);
 
 app.get('/', function(req, res) {
-  res.render('login', { name: 'JIRA' });
+  jira.getToDo('', '', function(todo) {
+  	res.render('login', todo);
+  });
 });
 
 app.listen(3000, function() {
