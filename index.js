@@ -50,17 +50,23 @@ app.get('/login', function(req, res) {
 });
 
 app.post('/login', csrfProtection, function(req, res) {
-  var username = req.body.username;
-  var password = req.body.password;
-  jira.validateLogin(username, password, function(err, success) {
-    if (err) {
-      return res.render('login', { csrfToken: req.csrfToken(), error: err.message });
-    } else {
-      req.session.username = username;
-      req.session.password = password;
-      return res.redirect('/');
-    }
+  req.session.regenerate(function(err) {
+    var username = req.body.username;
+    var password = req.body.password;
+    jira.validateLogin(username, password, function(err, success) {
+      if (err) {
+        return res.render('login', { csrfToken: req.csrfToken(), error: err.message });
+      } else {
+        req.session.username = username;
+        req.session.password = password;
+        return res.redirect('/');
+      }
+    });
   });
+});
+
+app.get('/logout', function(req, res) {
+  
 });
 
 app.get('/todo', function (req, res) {
