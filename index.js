@@ -109,7 +109,7 @@ app.get('/issue/:key', function (req, res) {
     if (err) {
       return handleError(err, res);
     }
-    res.render('issue', {issue: issue});
+    res.render('issue', { issue: issue, username: req.session.username });
   });
 });
 

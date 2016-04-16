@@ -1,21 +1,21 @@
-html
-  head
-    title="Issue"
-  body
-    h1=issue.key
-    table
-      tr
-        td="Summary:"
-        td=issue.fields.summary
-      tr
-        td="Description:"
-        td=issue.fields.description
-      tr
-        td="Coordinates:"
-        td=issue.fields.customfield_10100
-      tr
-        td="Requestor:"
-        td=issue.fields.customfield_10025
-      tr
-        td="Due date:"
-        td=issue.fields.duedate
+extend ./layout.pug
+block title
+  title="Issue"
+block content
+  h2=issue.key
+  table
+    tr
+      td="Summary:"
+      td=issue.fields.summary
+    tr
+      td="Description:"
+      td=issue.fields.description
+    tr
+      td="Coordinates:"
+      td=issue.fields.customfield_10100
+    tr
+      td="Requestor:"
+      td=issue.fields.customfield_10025
+    tr
+      td="Due date:"
+      td=issue.fields.duedate
