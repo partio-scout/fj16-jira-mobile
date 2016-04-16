@@ -4,6 +4,10 @@ html
     block title
       title='Mobile JIRA'
   body
+    #header
+      h1='Mobile JIRA'
+      if username
+        a(href='/logout')='Log out'
     block content
     #error
       block error

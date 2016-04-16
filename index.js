@@ -82,7 +82,7 @@ app.get('/todo', function (req, res) {
     if (err) {
       return handleError(err, res);
     }
-    res.render('issues', {issues: issueList});
+    res.render('issues', { issues: issueList, username: req.session.username, type: 'todo' });
   });
 });
 
@@ -91,7 +91,7 @@ app.get('/inprog', function (req, res) {
     if (err) {
       return handleError(err, res);
     }
-    res.render('issues', {issues: issueList});
+    res.render('issues', { issues: issueList, username: req.session.username, type: 'inprog' });
   });
 });
 
@@ -100,7 +100,7 @@ app.get('/done', function (req, res) {
     if (err) {
       return handleError(err, res);
     }
-    res.render('issues', {issues: issueList});
+    res.render('issues', { issues: issueList, username: req.session.username, type: 'done' });
   });
 });
 

@@ -3,6 +3,14 @@ block title
   title='Issues'
 block content
   h1='Issues'
+  #nav
+    ul(class=type)
+      li
+        a(href='/todo', class='todo')='To Do'
+      li
+        a(href='/inprog', class='inprog')='In Progress'
+      li
+        a(href='/done', class='done')='Done'
   ul
     each issue in issues
       li=issue.key + ": " + issue.fields.summary
