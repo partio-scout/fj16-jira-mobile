@@ -122,6 +122,16 @@ app.get('/issue/:key/json', function (req, res) {
   });
 });
 
+app.get('/issue/:key/transition/:transitionId', function (req, res) {
+  jira.transitionIssue(req.params.key, req.params.transitionId, req.session.username, req.session.password, function(err, issue) {
+    if (err) {
+      return handleError(err, res);
+    }
+    res.redirect('/issue/' + req.params.key)
+    // TODO: better way to handle...
+  });
+});
+
 app.listen(process.env.PORT || 3000, function() {
   console.log('Running...');
 });

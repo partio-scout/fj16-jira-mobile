@@ -73,10 +73,34 @@ function callJira(path, username, password, cb) {
     });
 }
 
+function transitionIssue(issueKey, transitionId, username, password, cb) {
+  if (!username || !password) {
+    return _.defer(function() {
+      var err = new Error('No username or password supplied');
+      err.status = 401;
+      cb(err);
+    })
+  }
+
+  request
+    .post(baseUrl + 'api/latest/issue/' + issueKey + '/transitions')
+    .auth(username, password)
+    .send({ transition: { id: transitionId }})
+    .end(function(err, res) {
+      if (err) {
+        return cb(err);
+      }
+      console.log(res.body);
+      cb(null, res.body);
+    });
+
+}
+
 module.exports = {
   validateLogin: validateLogin,
   getToDo: getToDo,
   getInProgress: getInProgress,
   getDone: getDone,
-  getIssue: getIssue
+  getIssue: getIssue,
+  transitionIssue: transitionIssue
 };
