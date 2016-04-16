@@ -1,15 +1,13 @@
-html
-  head
-    title='Mobile JIRA'
-  body
-    h1='Login'
-    if error
-      div.message.error=error
-    form(method='post', action='/login')
-      div
-        input(name='username', placeholder='Username')
-      div
-        input(name='password', type='password', placeholder='Password')
-      div
-        input(type='hidden', name='_csrf', value=csrfToken)
-        input(type='submit', value='Log in')
+extends ./layout.pug
+block content
+  h1='Login'
+  if error
+    div.message.error=error
+  form(method='post', action='/login')
+    div
+      input(name='username', placeholder='Username')
+    div
+      input(name='password', type='password', placeholder='Password')
+    div
+      input(type='hidden', name='_csrf', value=csrfToken)
+      input(type='submit', value='Log in')

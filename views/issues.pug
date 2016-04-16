@@ -1,7 +1,8 @@
-html
-  head
-    title="Issues"
-  body
-    ul
-      each issue in issues
-        li=issue.key + ": " + issue.fields.summary
+extends ./layout.pug
+block title
+  title='Issues'
+block content
+  h1='Issues'
+  ul
+    each issue in issues
+      li=issue.key + ": " + issue.fields.summary
