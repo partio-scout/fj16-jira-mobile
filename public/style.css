@@ -219,6 +219,15 @@ h3.issuetitle {
   margin: 0 0 10px;
 }
 
+.comment span {
+  font-size: 80%;
+  color: #999;
+}
+
+.comment p {
+  margin: 7px 0 7px 0;
+}
+
 .title {
   font-weight: bold;
 }

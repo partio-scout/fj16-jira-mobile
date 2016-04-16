@@ -1,6 +1,7 @@
 var request = require('superagent');
 var _ = require('lodash');
 var baseUrl = 'https://jira.roihu2016.fi/rest/';
+var moment = require('moment');
 
 function validateLogin(username, password, cb) {
   request
@@ -45,12 +46,30 @@ function getIssueListBySearch(jql, username, password, cb) {
     if (err) {
       return cb(err);
     }
+    _.map(body.issues, function(issue) {
+      if (issue.fields.duedate != undefined) {
+        issue.fields.duedate = moment(issue.fields.duedate, 'YYYY-MM-DD').format('DD.MM.YYYY');
+      }
+    });
     cb(null, body.issues);
   });
 }
 
 function getIssue(key, username, password, cb) {
-  callJira('api/latest/issue/' + key, username, password, cb);
+  callJira('api/latest/issue/' + key, username, password, function (err, body) {
+    if (err) {
+      return cb(err);
+    }
+    if (body.fields.duedate != undefined) {
+      body.fields.duedate = moment(body.fields.duedate, 'YYYY-MM-DD').format('DD.MM.YYYY');
+    }
+    _.map(body.fields.comment.comments, function(comment) {
+      moment.locale('fi')
+      comment.fromNow=moment(comment.created).fromNow();
+      comment.created=moment(comment.created).format('DD.MM.YYYY HH:mm:ss');
+    });
+    cb(null, body);
+  });
 }
 
 function callJira(path, username, password, cb) {
