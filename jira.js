@@ -41,6 +41,19 @@ function getDone(username, password, cb) {
 }
 
 function getIssueListBySearch(jql, username, password, cb) {
+  callJira('api/latest/search?jql=' + jql, username, password, function (err, body) {
+    if (err) {
+      return cb(err);
+    }
+    cb(null, body.issues);
+  });
+}
+
+function getIssue(key, username, password, cb) {
+  callJira('api/latest/issue/' + key, username, password, cb);
+}
+
+function callJira(path, username, password, cb) {
   if (!username || !password) {
     return _.defer(function() {
       var err = new Error('No username or password supplied');
@@ -50,23 +63,20 @@ function getIssueListBySearch(jql, username, password, cb) {
   }
 
   request
-    .get(baseUrl + 'api/latest/search?jql=' + jql)
+    .get(baseUrl + path)
     .auth(username, password)
     .end(function(err, res) {
       if (err) {
         return cb(err);
       }
-
-      var issues = res.body.issues;
-
-      cb(null, issues);
+      cb(null, res.body);
     });
-
 }
 
 module.exports = {
   validateLogin: validateLogin,
   getToDo: getToDo,
   getInProgress: getInProgress,
-  getDone: getDone
+  getDone: getDone,
+  getIssue: getIssue
 };

@@ -64,29 +64,38 @@ app.post('/login', csrfProtection, function(req, res) {
 });
 
 app.get('/todo', function (req, res) {
-  jira.getToDo(req.session.username, req.session.password, function(err, todo) {
+  jira.getToDo(req.session.username, req.session.password, function(err, issueList) {
     if (err) {
       return handleError(err, res);
     }
-    res.render('issues', {issues: todo});
+    res.render('issues', {issues: issueList});
   });
 });
 
 app.get('/inprog', function (req, res) {
-  jira.getInProgress(req.session.username, req.session.password, function(err, todo) {
+  jira.getInProgress(req.session.username, req.session.password, function(err, issueList) {
     if (err) {
       return handleError(err, res);
     }
-    res.render('issues', {issues: todo});
+    res.render('issues', {issues: issueList});
   });
 });
 
 app.get('/done', function (req, res) {
-  jira.getDone(req.session.username, req.session.password, function(err, todo) {
+  jira.getDone(req.session.username, req.session.password, function(err, issueList) {
     if (err) {
       return handleError(err, res);
     }
-    res.render('issues', {issues: todo});
+    res.render('issues', {issues: issueList});
+  });
+});
+
+app.get('/issue/:key', function (req, res) {
+  jira.getIssue(req.params.key, req.session.username, req.session.password, function(err, issue) {
+    if (err) {
+      return handleError(err, res);
+    }
+    res.render('issue', {issue: issue});
   });
 });
 
