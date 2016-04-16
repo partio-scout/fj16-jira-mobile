@@ -93,7 +93,28 @@ function transitionIssue(issueKey, transitionId, username, password, cb) {
       console.log(res.body);
       cb(null, res.body);
     });
+}
 
+function addComment(comment, issueKey, username, password, cb) {
+  if (!username || !password) {
+    return _.defer(function() {
+      var err = new Error('No username or password supplied');
+      err.status = 401;
+      cb(err);
+    })
+  }
+
+  request
+    .post(baseUrl + 'api/latest/issue/' + issueKey + '/comment')
+    .auth(username, password)
+    .send({ body: comment})
+    .end(function(err, res) {
+      if (err) {
+        return cb(err);
+      }
+      console.log(res.body);
+      cb(null, res.body);
+    });
 }
 
 module.exports = {
@@ -102,5 +123,6 @@ module.exports = {
   getInProgress: getInProgress,
   getDone: getDone,
   getIssue: getIssue,
-  transitionIssue: transitionIssue
+  transitionIssue: transitionIssue,
+  addComment: addComment
 };

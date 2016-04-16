@@ -109,7 +109,7 @@ app.get('/issue/:key', function (req, res) {
     if (err) {
       return handleError(err, res);
     }
-    res.render('issue', { issue: issue, username: req.session.username });
+    res.render('issue', { issue: issue, username: req.session.username , csrfToken: req.csrfToken()});
   });
 });
 
@@ -130,6 +130,18 @@ app.get('/issue/:key/transition/:transitionId', function (req, res) {
     res.redirect('/issue/' + req.params.key)
     // TODO: better way to handle...
   });
+});
+
+app.post('/issue/:key/comment', function (req, res) {
+  console.log(req.body.comment);
+  if (req.body.comment != undefined && req.body.comment.length > 0) {
+    jira.addComment(req.body.comment, req.params.key, req.session.username, req.session.password, function(err, issue) {
+      if (err) {
+        return handleError(err, res);
+      }
+    });
+  }
+  res.redirect('/issue/' + req.params.key);
 });
 
 app.listen(process.env.PORT || 3000, function() {
