@@ -2,8 +2,10 @@ var request = require('superagent');
 
 var baseUrl = 'https://jira.roihu2016.fi/rest/api/latest/';
 
-function validateLogin(username, password) {
-  
+function validateLogin(username, password, cb) {
+  setTimeout(function() {
+    cb(null, 'woop')
+  },0);
 }
 
 function getToDo(username, password, cb) {
@@ -32,5 +34,6 @@ function getToDo(username, password, cb) {
 }
 
 module.exports = {
+  validateLogin: validateLogin,
   getToDo: getToDo,
 };

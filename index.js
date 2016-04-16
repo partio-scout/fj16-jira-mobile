@@ -39,12 +39,15 @@ app.get('/login', function(req, res) {
 });
 
 app.post('/login', csrfProtection, function(req, res) {
-  jira.validateLogin('', '', function(err, res) {
+  var username = req.body.username;
+  var password = req.body.password;
+  jira.validateLogin(username, password, function(err, success) {
     if (err) {
       return res.render('login', { csrfToken: req.csrfToken, error: err });
     } else {
-      //TODO Save session
-      return res.redirect('/todo');
+      req.session.username = username;
+      req.session.password = password;
+      return res.redirect('/');
     }
   });
 });
