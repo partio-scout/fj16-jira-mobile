@@ -33,7 +33,7 @@ function handleError(err, res) {
     res.render('error_401');
   } else {
     res.status(500);
-    res.render('error_500');
+    res.render('error');
   }
 }
 
