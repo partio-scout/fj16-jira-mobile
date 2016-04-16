@@ -12,6 +12,10 @@ block content
   h2=issue.fields.summary
     span.status(class=issue.fields.status.name)=issue.fields.status.name
   p
+    strong='Components: '
+    each component in issue.fields.components
+      span=component.name
+  p
     strong='Due date: '
     span=issue.fields.duedate
   p
