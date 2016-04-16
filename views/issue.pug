@@ -13,9 +13,8 @@ block content
     span.status(class=issue.fields.status.name)=issue.fields.status.name
   h3.issuetitle=issue.fields.summary
   p
-    strong='Components: '
     each component in issue.fields.components
-      span=component.name
+      span.component=component.name
   p
     strong='Due date: '
     span=issue.fields.duedate
@@ -26,21 +25,31 @@ block content
   p
     strong='Requestor: '
     span=issue.fields.customfield_10025
+  p
+    strong='Reporter: '
+    span=issue.fields.reporter.displayName
 
   if issue.fields.status.name === 'To Do'
-    a(href='/issue/' + issue.key + '/transition/21')='Start >'
+    a.btn(href='/issue/' + issue.key + '/transition/21')='Start'
+    span.btn.disabled='Move to Todo'
+    span.btn.disabled='Set Done'
   if issue.fields.status.name === 'In Progress'
-    a(href='/issue/' + issue.key + '/transition/51')='< Move to Todo'
-    a(href='/issue/' + issue.key + '/transition/41')='Set Done >'
+    span.btn.disabled='Start'
+    a.btn(href='/issue/' + issue.key + '/transition/51')='Move to Todo'
+    a.btn(href='/issue/' + issue.key + '/transition/41')='Set Done'
   if issue.fields.status.name === 'Done'
-    a(href='/issue/' + issue.key + '/transition/71')='< Reopen'
+    a.btn(href='/issue/' + issue.key + '/transition/71')='Reopen'
 
-  h2='Comments'
-  each comment in issue.fields.comment.comments
-    p=comment.author.displayName + ' | ' + comment.created + ' | ' + comment.body
+  .comments
+    h3='Comments'
+    each comment in issue.fields.comment.comments
+      .comment
+        .title=comment.author.displayName + ' | ' + comment.created
+        p=comment.body
 
-  p
-    form(action='/issue/' + issue.key + '/comment', method='POST')
-      input(type='hidden', name='_csrf', value=csrfToken)
-      textarea(name='comment')
-      input(type='submit', value='Add comment')
+    .add-comment
+      form(action='/issue/' + issue.key + '/comment', method='POST')
+        input(type='hidden', name='_csrf', value=csrfToken)
+        textarea(name='comment')
+        p
+          input.btn(type='submit', value='Add comment')
