@@ -3,6 +3,8 @@ html
     title='Mobile JIRA'
   body
     h1='Login'
+    if error
+      div.message.error=error
     form(method='post', action='/login')
       div
         input(name='username', placeholder='Username')

@@ -26,6 +26,17 @@ app.use(bodyParser.urlencoded({ extended: false }));
 var csrfProtection = csrf();
 app.use(csrfProtection);
 
+function handleError(err, res) {
+  console.error('Handle error: ', err);
+  if (err.status && err.status === 401) {
+    res.status(401);
+    res.render('error_401');
+  } else {
+    res.status(500);
+    res.render('error_500');
+  }
+}
+
 app.get('/', function(req, res) {
   if (req.session.username) {
     res.redirect('/todo');
@@ -43,7 +54,7 @@ app.post('/login', csrfProtection, function(req, res) {
   var password = req.body.password;
   jira.validateLogin(username, password, function(err, success) {
     if (err) {
-      return res.render('login', { csrfToken: req.csrfToken, error: err });
+      return res.render('login', { csrfToken: req.csrfToken(), error: err.message });
     } else {
       req.session.username = username;
       req.session.password = password;
@@ -53,7 +64,10 @@ app.post('/login', csrfProtection, function(req, res) {
 });
 
 app.get('/todo', function (req, res) {
-  jira.getToDo('api', 'p4ssw0rd@roihu', function(todo) {
+  jira.getToDo(req.session.username, req.session.password, function(err, todo) {
+    if (err) {
+      return handleError(err, res);
+    }
     res.render('issues', {issues: todo});
   });
 });
