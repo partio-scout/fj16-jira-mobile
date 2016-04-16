@@ -21,3 +21,11 @@ block content
   p
     strong='Requestor: '
     span=issue.fields.customfield_10025
+
+  if issue.fields.status.name === 'To Do'
+    a(href='/issue/' + issue.key + '/transition/21')='Start >'
+  if issue.fields.status.name === 'In Progress'
+    a(href='/issue/' + issue.key + '/transition/51')='< Move to Todo'
+    a(href='/issue/' + issue.key + '/transition/41')='Set Done >'
+  if issue.fields.status.name === 'Done'
+    a(href='/issue/' + issue.key + '/transition/71')='< Reopen'
