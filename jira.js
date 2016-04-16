@@ -41,7 +41,7 @@ function getDone(username, password, cb) {
 }
 
 function getIssueListBySearch(jql, username, password, cb) {
-  callJira('api/latest/search?jql=' + jql, username, password, function (err, body) {
+  callJira('api/latest/search?maxResults=500&jql=' + jql, username, password, function (err, body) {
     if (err) {
       return cb(err);
     }
