@@ -13,7 +13,7 @@ var sessionOptions = {
 };
 app.use(session({
   store: new FileStore(sessionOptions),
-  secret: process.env.SECRET,
+  secret: process.env.SECRET || 'Set a proper secret in the SECRET env variable',
   resave: false,
   saveUninitialized: true,
 }));
