@@ -24,8 +24,14 @@ var csrfProtection = csrf();
 app.use(csrfProtection);
 
 app.get('/', function(req, res) {
-  jira.getToDo('', '', function(todo) {
+  jira.getToDo('api', 'p4ssw0rd@roihu', function(todo) {
   	res.render('login', todo);
+  });
+});
+
+app.get('/todo', function (req, res) {
+  jira.getToDo('api', 'p4ssw0rd@roihu', function(todo) {
+    res.render('issues', todo);
   });
 });
 
