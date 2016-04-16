@@ -51,6 +51,9 @@ app.get('/login', function(req, res) {
 
 app.post('/login', csrfProtection, function(req, res) {
   req.session.regenerate(function(err) {
+    if (err) {
+      console.error('Session regeneration failed', err);
+    }
     var username = req.body.username;
     var password = req.body.password;
     jira.validateLogin(username, password, function(err, success) {
