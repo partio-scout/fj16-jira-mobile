@@ -2,7 +2,7 @@ extends ./layout.pug
 block title
   title='Issues'
 block content
-  h1='Issues'
+  h2='Assigned to my team'
   #nav
     ul(class=type)
       li
@@ -13,4 +13,9 @@ block content
         a(href='/done', class='done')='Done'
   ul
     each issue in issues
-      li=issue.key + ": " + issue.fields.summary
+      li
+        a(href='/issue/' + issue.key)
+          span.coords=issue.fields.customfield_10100
+          span.key=issue.key
+          span.date=issue.fields.duedate
+          span.title=issue.fields.summary
