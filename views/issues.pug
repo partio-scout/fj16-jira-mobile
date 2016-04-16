@@ -11,7 +11,7 @@ block content
         a(href='/inprog', class='inprog')='In Progress'
       li
         a(href='/done', class='done')='Done'
-  ul
+  ul.issues
     each issue in issues
       li
         a(href='/issue/' + issue.key)
