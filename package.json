@@ -10,6 +10,9 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "express": "^4.13.4"
+    "express": "^4.13.4",
+    "express-session": "^1.13.0",
+    "pug": "^2.0.0-alpha3",
+    "session-file-store": "^0.2.0"
   }
 }
