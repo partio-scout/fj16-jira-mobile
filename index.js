@@ -54,7 +54,7 @@ app.post('/login', csrfProtection, function(req, res) {
 
 app.get('/todo', function (req, res) {
   jira.getToDo('api', 'p4ssw0rd@roihu', function(todo) {
-    res.render('issues', todo);
+    res.render('issues', {issues: todo});
   });
 });
 
