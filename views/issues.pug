@@ -1,0 +1,7 @@
+html
+  head
+    title="Issues"
+  body
+    ul
+      each issue in issues
+        li=issue.key + ": " + issue.fields.summary
