@@ -1,6 +1,7 @@
 var express = require('express');
 var session = require('express-session');
 var FileStore = require('session-file-store')(session);
+var csrf = require('csurf');
 
 var app = express();
 
@@ -17,6 +18,9 @@ app.use(session({
   resave: false,
   saveUninitialized: true,
 }));
+
+var csrfProtection = csrf();
+app.use(csrfProtection);
 
 app.get('/', function(req, res) {
   res.render('login', { name: 'JIRA' });
