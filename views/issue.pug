@@ -21,10 +21,20 @@ block content
   p
     strong='Coordinates: '
     span=issue.fields.customfield_10100
-  p=issue.fields.description
+  p
+    if issue.fields.description != undefined
+      each line in issue.fields.description.split(/\n/)
+        = line
+        br
   p
     strong='Requestor: '
-    span=issue.fields.customfield_10025
+    if issue.fields.customfield_10025 != undefined && issue.fields.customfield_10025.length > 0 && issue.fields.customfield_10025.split(/\n/).length > 1
+      br
+      each line in issue.fields.customfield_10025.split(/\n/)
+        = line
+        br
+    else
+      span=issue.fields.customfield_10025
   p
     strong='Reporter: '
     span=issue.fields.reporter.displayName
