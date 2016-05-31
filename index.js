@@ -129,7 +129,7 @@ app.get('/issue/:key/transition/:transitionId', function (req, res) {
     if (err) {
       return handleError(err, res);
     }
-    res.redirect('/issue/' + req.params.key)
+    res.redirect('/issue/' + req.params.key);
     // TODO: better way to handle...
   });
 });
@@ -144,6 +144,16 @@ app.post('/issue/:key/comment', function (req, res) {
     });
   }
   res.redirect('/issue/' + req.params.key);
+});
+
+app.get('/attachmentthumb/:attachmentId', function (req, res) {
+  jira.getAttachmentThumb(req.params.attachmentId, req.session.username, req.session.password, function(err, resp) {
+    if (err) {
+      return handleError(err, res);
+    }
+    res.type(resp.type);
+    res.send(resp.body);
+  });
 });
 
 app.listen(process.env.PORT || 3000, function() {

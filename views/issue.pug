@@ -39,6 +39,17 @@ block content
     strong='Reporter: '
     span=issue.fields.reporter.displayName
 
+  if issue.fields.attachment != undefined && issue.fields.attachment.length > 0
+    p
+      each attachment in issue.fields.attachment
+        a(href=attachment.content, target='_blank')=attachment.filename
+        |&nbsp;
+        small=attachment.size
+        if attachment.thumbnail != undefined && attachment.thumbnail.length > 0
+          br
+          img(src='/attachmentthumb/' + attachment.id)
+        br
+
   if issue.fields.status.name === 'To Do'
     a.btn(href='/issue/' + issue.key + '/transition/21')='Start'
     span.btn.disabled='Move to Todo'

@@ -1,5 +1,6 @@
 var request = require('superagent');
 var _ = require('lodash');
+var filesize = require('filesize');
 var baseUrl = 'https://jira.roihu2016.fi/rest/';
 var moment = require('moment');
 
@@ -68,6 +69,9 @@ function getIssue(key, username, password, cb) {
       comment.fromNow=moment(comment.created).fromNow();
       comment.created=moment(comment.created).format('DD.MM.YYYY HH:mm:ss');
     });
+    _.map(body.fields.attachment, function(attachment) {
+      attachment.size = filesize(attachment.size);
+    });
     cb(null, body);
   });
 }
@@ -89,6 +93,23 @@ function callJira(path, username, password, cb) {
         return cb(err);
       }
       cb(null, res.body);
+    });
+}
+
+function getAttachmentThumb(attachmentId, username, password, cb) {
+  if (!username || !password) {
+    return _.defer(function() {
+      var err = new Error('No username or password supplied');
+      err.status = 401;
+      cb(err);
+    })
+  }
+
+  request
+    .get('https://jira.roihu2016.fi/secure/thumbnail/' + attachmentId + '/')
+    .auth(username, password)
+    .end(function (err, res) {
+      cb(null, res);
     });
 }
 
@@ -143,5 +164,6 @@ module.exports = {
   getDone: getDone,
   getIssue: getIssue,
   transitionIssue: transitionIssue,
-  addComment: addComment
+  addComment: addComment,
+  getAttachmentThumb: getAttachmentThumb
 };
