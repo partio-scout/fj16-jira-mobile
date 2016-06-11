@@ -2,6 +2,7 @@ var express = require('express');
 var session = require('express-session');
 var FileStore = require('session-file-store')(session);
 var csrf = require('csurf');
+var hsts = require('hsts');
 var bodyParser = require('body-parser');
 var jira = require('./jira');
 
@@ -25,6 +26,12 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 var csrfProtection = csrf();
 app.use(csrfProtection);
+
+app.use(hsts({
+  maxAge: 20*7*24*60*60*1000,
+  includeSubDomains: true,
+  preload: true
+}));
 
 app.use(express.static('public'));
 
