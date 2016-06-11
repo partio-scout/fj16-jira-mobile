@@ -2,6 +2,7 @@ var express = require('express');
 var session = require('express-session');
 var FileStore = require('session-file-store')(session);
 var csrf = require('csurf');
+var express_enforces_ssl = require('express-enforces-ssl');
 var hsts = require('hsts');
 var bodyParser = require('body-parser');
 var jira = require('./jira');
@@ -26,6 +27,11 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 var csrfProtection = csrf();
 app.use(csrfProtection);
+
+if (process.env.NODE_ENV === 'production') {
+  app.enable('trust proxy');
+  app.use(express_enforces_ssl());
+}
 
 app.use(hsts({
   maxAge: 20*7*24*60*60*1000,
