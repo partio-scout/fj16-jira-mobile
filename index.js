@@ -1,23 +1,38 @@
 var express = require('express');
 var session = require('express-session');
 var FileStore = require('session-file-store')(session);
+var DatabaseStore = require('connect-pg-simple')(session);
 var csrf = require('csurf');
 var express_enforces_ssl = require('express-enforces-ssl');
 var hsts = require('hsts');
 var bodyParser = require('body-parser');
 var jira = require('./jira');
 
+var SESSION_TTL = 8*3600;
+
 var app = express();
 
 app.set('views', './views');
 app.set('view engine', 'pug');
 
-var sessionOptions = {
-  ttl: 8*3600,
-  encrypt: true,
-};
+var sessionStore;
+if (process.env.DATABASE_URL) {
+  console.log('Using database sessions');
+  sessionStore = new DatabaseStore({
+    ttl: SESSION_TTL,
+    conString: process.env.DATABASE_URL,
+  });
+} else {
+  console.log('Using flat-file sessions');
+  sessionStore = new FileStore({
+    ttl: SESSION_TTL,
+    encrypt: true,
+  });
+}
+
+
 app.use(session({
-  store: new FileStore(sessionOptions),
+  store: sessionStore,
   secret: process.env.SECRET || 'Set a proper secret in the SECRET env variable',
   resave: false,
   saveUninitialized: true,
