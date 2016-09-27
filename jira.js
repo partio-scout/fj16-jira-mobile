@@ -1,7 +1,8 @@
 var request = require('superagent');
 var _ = require('lodash');
 var filesize = require('filesize');
-var baseUrl = 'https://jira.roihu2016.fi/rest/';
+var host = process.env.HOST || 'http://jira.partio.fi';
+var baseUrl = host + '/rest/';
 var moment = require('moment');
 
 function validateLogin(username, password, cb) {
@@ -106,7 +107,7 @@ function getAttachmentThumb(attachmentId, username, password, cb) {
   }
 
   request
-    .get('https://jira.roihu2016.fi/secure/thumbnail/' + attachmentId + '/')
+    .get(host + '/secure/thumbnail/' + attachmentId + '/')
     .auth(username, password)
     .end(function (err, res) {
       cb(null, res);
