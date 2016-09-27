@@ -13,3 +13,18 @@ The app can be configured using the environment variables. For development use y
 - SECRET: Secret used for signing the session cookie. **Must be set in production to keep your app safe.**
 - NODE_ENV: When set to "production" the app will force SSL and set "trust proxy" flag so the correct client IP will be used. This is useful in production, obviously.
 - PORT: Set automatically e.g. on Heroku, dictates the port the app will use. Defaults to 3000.
+
+## Developing
+
+In development, make sure you have a working JIRA installation set in the HOST env var or you are using the default http://jira.partio.fi as the backend. Then you can simply:
+
+	npm install
+	npm start
+
+Navigate to http://localhost:3000 and log in using your JIRA username and password.
+
+To have the app automatically restart when you make code changes you can install [Supervisor](https://github.com/petruisfan/node-supervisor) and run:
+
+	supervisor index.js
+
+There are no tests in the app because it's so simple and depends heavily on JIRA.
