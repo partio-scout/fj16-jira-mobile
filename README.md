@@ -28,3 +28,24 @@ To have the app automatically restart when you make code changes you can install
 	supervisor index.js
 
 There are no tests in the app because it's so simple and depends heavily on JIRA.
+
+## Deploying to Heroku
+
+After cloning the repository:
+
+	# Create the app with the url https://my-jira-client.herokuapp.com
+	heroku create my-jira-client
+	# Set the JIRA host to be used as backend
+	heroku config:set HOST=https://jira.example.org
+	# Set the secret to prevent tampering with your session cookies
+	heroku config:set SECRET=<keyboard cat>
+	# Add a database for storing sessions - flat file sessions don't work on Heroku.
+	heroku addons:create heroku-postgresql:hobby-dev
+	# Wait for creation to complete
+	heroku pg:wait
+	# Push code to Heroku
+	git push heroku master
+
+You should now have a working installation of the app available at https://my-jira-client.herokuapp.com.
+
+Heroku automatically sets NODE_ENV to "production" and PORT to the correct value. Adding the database automatically sets the DATABASE_URL to the correct value.
