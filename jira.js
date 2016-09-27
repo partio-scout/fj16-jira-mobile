@@ -1,7 +1,7 @@
 var request = require('superagent');
 var _ = require('lodash');
 var filesize = require('filesize');
-var host = process.env.HOST || 'https://jira.roihu2016.fi';
+var host = process.env.HOST || 'http://jira.partio.fi';
 var baseUrl = host + '/rest/';
 var moment = require('moment');
 
